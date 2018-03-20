@@ -1,5 +1,6 @@
-import com.thoughtworks.bank.Account;
-import com.thoughtworks.bank.LowBalanceException;
+import com.thoughtworks.account.Account;
+import com.thoughtworks.account.LowBalanceException;
+import com.thoughtworks.account.InsufficientBalanceExceptoin;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,13 +37,19 @@ public class AccountTest {
     }
 
     @Test
-    public void debitTest() throws LowBalanceException {
+    public void debitTest() throws LowBalanceException, InsufficientBalanceExceptoin {
         Account account = new Account ( "manu" , 12345 , 2000 );
         assertThat ( account.debit(200), is ((double) 1800 ) );
     }
 
     @Test(expected = LowBalanceException.class)
     public void lowBalanceTest() throws LowBalanceException {
-        new Account ( "manu",1233,200 );
+        new Account ( "manu",1233, 200 );
+    }
+
+    @Test(expected = InsufficientBalanceExceptoin.class)
+    public void insufficientBalTest() throws LowBalanceException, InsufficientBalanceExceptoin {
+        Account account = new Account ( "manu" , 12356 , 2000 );
+        account.debit(2000);
     }
 }

@@ -1,4 +1,4 @@
-package com.thoughtworks.bank;
+package com.thoughtworks.account;
 
 public class LowBalanceException extends Throwable {
     public LowBalanceException() {

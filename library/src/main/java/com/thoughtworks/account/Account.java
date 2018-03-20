@@ -1,17 +1,22 @@
 package com.thoughtworks.account;
 
+
 public class Account {
     private final String holderName;
-    private final long accountNumber;
+    final String accountNumber;
     private final double minBalance;
     private double accountBalance;
 
-    public Account(String holderName , long accountNumber , double accountBalance) throws LowBalanceException {
+    public Account(String holderName , String accountNumber , double accountBalance) throws LowBalanceException, InvalidAccountNumException {
         this.minBalance = 1000;
         if (accountBalance< this.minBalance) {
             throw new LowBalanceException ();
         }
+        boolean match = accountNumber.matches("^\\d{4}\\-\\d{4}$");
         this.holderName = holderName;
+        if(!match){
+            throw new InvalidAccountNumException ();
+        }
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;
     }
@@ -20,7 +25,7 @@ public class Account {
         return accountBalance;
     }
 
-    public long getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 

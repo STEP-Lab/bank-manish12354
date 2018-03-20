@@ -1,4 +1,5 @@
 import com.thoughtworks.account.Account;
+import com.thoughtworks.account.InvalidAccountNumException;
 import com.thoughtworks.account.LowBalanceException;
 import com.thoughtworks.account.InsufficientBalanceExceptoin;
 import org.junit.Before;
@@ -10,8 +11,8 @@ import static org.junit.Assert.assertThat;
 public class AccountTest {
     Account account;
     @Before
-    public void setUp() throws Exception, LowBalanceException {
-        account = new Account ( "Manish" , 12345 , 1000 );
+    public void setUp() throws Exception, LowBalanceException, InvalidAccountNumException {
+        account = new Account ( "Manish" , "1234-5636" , 1000 );
     }
     @Test
     public void getBalanceTest(){
@@ -20,7 +21,7 @@ public class AccountTest {
 
     @Test
     public void getAccountNumberTest() {
-        assertThat ( account.getAccountNumber (), is ( (long) 12345 ) );
+        assertThat ( account.getAccountNumber (), is ("1234-5636" ) );
     }
 
 
@@ -30,26 +31,31 @@ public class AccountTest {
     }
 
     @Test
-    public void creditTest() throws LowBalanceException {
-        Account account = new Account ( "manish" , 123456 , 5000 );
+    public void creditTest() throws LowBalanceException, InvalidAccountNumException {
+        Account account = new Account ( "manish" , "1234-5636" , 5000 );
         assertThat ( account.credit(1000), is ( (double) 6000 ) );
         assertThat ( account.credit ( 100.5 ),is ( (double) 6100.5 ) );
     }
 
     @Test
-    public void debitTest() throws LowBalanceException, InsufficientBalanceExceptoin {
-        Account account = new Account ( "manu" , 12345 , 2000 );
+    public void debitTest() throws LowBalanceException, InsufficientBalanceExceptoin, InvalidAccountNumException {
+        Account account = new Account ( "manu" , "1234-5636" , 2000 );
         assertThat ( account.debit(200), is ((double) 1800 ) );
     }
 
     @Test(expected = LowBalanceException.class)
-    public void lowBalanceTest() throws LowBalanceException {
-        new Account ( "manu",1233, 200 );
+    public void lowBalanceTest() throws LowBalanceException, InvalidAccountNumException {
+        new Account ( "manu","1234-5636", 200 );
     }
 
     @Test(expected = InsufficientBalanceExceptoin.class)
-    public void insufficientBalTest() throws LowBalanceException, InsufficientBalanceExceptoin {
-        Account account = new Account ( "manu" , 12356 , 2000 );
+    public void insufficientBalTest() throws LowBalanceException, InsufficientBalanceExceptoin, InvalidAccountNumException {
+        Account account = new Account ( "manu" , "1234-5636" , 2000 );
         account.debit(2000);
+    }
+
+    @Test(expected = InvalidAccountNumException.class)
+    public void name() throws InvalidAccountNumException, LowBalanceException {
+        new Account("manish","1823-332",812375);
     }
 }

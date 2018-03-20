@@ -1,0 +1,11 @@
+build/
+.settings/
+.vscode/
+gradle/
+gradlew
+gradlew.bat
+.gradle
+.project
+*.xml
+*.iml
+*.gradle

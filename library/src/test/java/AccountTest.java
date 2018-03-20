@@ -1,4 +1,5 @@
 import com.thoughtworks.bank.Account;
+import com.thoughtworks.bank.LowBalanceException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +9,7 @@ import static org.junit.Assert.assertThat;
 public class AccountTest {
     Account account;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception, LowBalanceException {
         account = new Account ( "Manish" , 12345 , 1000 );
     }
     @Test
@@ -28,15 +29,20 @@ public class AccountTest {
     }
 
     @Test
-    public void creditTest() {
+    public void creditTest() throws LowBalanceException {
         Account account = new Account ( "manish" , 123456 , 5000 );
         assertThat ( account.credit(1000), is ( (double) 6000 ) );
         assertThat ( account.credit ( 100.5 ),is ( (double) 6100.5 ) );
     }
 
     @Test
-    public void debitTest() {
+    public void debitTest() throws LowBalanceException {
         Account account = new Account ( "manu" , 12345 , 2000 );
         assertThat ( account.debit(200), is ((double) 1800 ) );
+    }
+
+    @Test(expected = LowBalanceException.class)
+    public void lowBalanceTest() throws LowBalanceException {
+        new Account ( "manu",1233,200 );
     }
 }

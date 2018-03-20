@@ -5,7 +5,10 @@ public class Account {
     private final long accountNumber;
     private double accountBalance;
 
-    public Account(String holderName , long accountNumber, double accountBalance) {
+    public Account(String holderName , long accountNumber, double accountBalance) throws LowBalanceException {
+        if (accountBalance<1000) {
+            throw new LowBalanceException ();
+        }
         this.holderName = holderName;
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;

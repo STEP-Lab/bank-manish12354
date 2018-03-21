@@ -46,5 +46,9 @@ public class Account {
         accountBalance-= balance;
         return accountBalance;
     }
+    public String getSummary(){
+        Summary summary = new Summary(holderName,accountNumber,accountBalance);
+        return summary.toString();
+    }
 }
 

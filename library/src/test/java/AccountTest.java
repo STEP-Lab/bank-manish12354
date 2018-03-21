@@ -1,7 +1,5 @@
-import com.thoughtworks.account.Account;
-import com.thoughtworks.account.InvalidAccountNumException;
-import com.thoughtworks.account.LowBalanceException;
-import com.thoughtworks.account.InsufficientBalanceExceptoin;
+import com.thoughtworks.account.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,7 +53,13 @@ public class AccountTest {
     }
 
     @Test(expected = InvalidAccountNumException.class)
-    public void name() throws InvalidAccountNumException, LowBalanceException {
+    public void invalidAccNumTest() throws InvalidAccountNumException, LowBalanceException {
         new Account("manish","1823-332",812375);
+    }
+
+    @Test
+    public void getSummaryTest () throws InvalidAccountNumException, LowBalanceException {
+        Account account = new Account ( "manish Yadav" , "1234-5678" , 3000 );
+        assertThat ( account.getSummary (),is ( "accountNumber=1234-5678, accountBalance=3000.0, holderName=manish Yadav" ) );
     }
 }

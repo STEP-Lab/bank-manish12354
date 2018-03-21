@@ -52,14 +52,16 @@ public class AccountTest {
         account.debit(2000);
     }
 
-    @Test(expected = InvalidAccountNumException.class)
-    public void invalidAccNumTest() throws InvalidAccountNumException, LowBalanceException {
-        new Account("manish","1823-332",812375);
-    }
-
     @Test
     public void getSummaryTest () throws InvalidAccountNumException, LowBalanceException {
         Account account = new Account ( "manish Yadav" , "1234-5678" , 3000 );
         assertThat ( account.getSummary (),is ( "accountNumber=1234-5678, accountBalance=3000.0, holderName=manish Yadav" ) );
+    }
+
+    @Test()
+    public void checkIfWithdrawIsAllowed() throws InvalidAccountNumException, LowBalanceException, InsufficientBalanceExceptoin {
+        final Account account1 = new Account ( "manish" , "1234-5432" , 4000 );
+        account1.debit(1000);
+        assertThat ( account1.getBalance (),is ( 3000.0d ) );
     }
 }

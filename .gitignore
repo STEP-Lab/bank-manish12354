@@ -1,4 +1,5 @@
 build/
+.idea
 .settings/
 .vscode/
 gradle/
@@ -6,6 +7,10 @@ gradlew
 gradlew.bat
 .gradle
 .project
-*.xml
+application/build
+application/out
+application/.settings
+library/build
+out
+library/.settings
 *.iml
-*.gradle

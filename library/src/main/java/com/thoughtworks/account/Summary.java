@@ -1,11 +1,11 @@
 package com.thoughtworks.account;
 
 class Summary{
-    private final String accountNumber;
+    private final AccountNumber accountNumber;
     private final double accountBalance;
     private final String holderName;
 
-    Summary(String holderName, String accountNumber, double accountBalance){
+    Summary(String holderName, AccountNumber accountNumber, double accountBalance){
         this.holderName = holderName;
         this.accountNumber= accountNumber;
         this.accountBalance = accountBalance;

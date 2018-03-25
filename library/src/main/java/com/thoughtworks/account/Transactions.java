@@ -16,4 +16,8 @@ public class Transactions {
     public void credit(double amount , String name) {
         this.list.add(new CreditTransaction(amount,name));
     }
+
+    public ArrayList <Transaction> getList() {
+        return list;
+    }
 }

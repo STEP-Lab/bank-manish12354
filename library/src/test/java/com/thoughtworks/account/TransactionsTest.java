@@ -12,6 +12,8 @@ public class TransactionsTest {
     public void shouldRecordDebitTransactions(){
         Transactions transactions = new Transactions();
         transactions.debit(1000,"manish");
+        transactions.credit ( 1000,"manu" );
+//        System.out.println (transactions.list);
         assertThat(transactions.list,hasItem(new DebitTransaction (new Date (), "manish" , 1000 ) ));
     }
 

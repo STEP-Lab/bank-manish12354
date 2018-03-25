@@ -5,7 +5,7 @@ class Summary{
     private final double accountBalance;
     private final String holderName;
 
-    Summary(String holderName, AccountNumber accountNumber, double accountBalance){
+     Summary(String holderName, AccountNumber accountNumber, double accountBalance){
         this.holderName = holderName;
         this.accountNumber= accountNumber;
         this.accountBalance = accountBalance;
@@ -13,7 +13,7 @@ class Summary{
 
     @Override
     public String toString() {
-        return "accountNumber=" + accountNumber +
+        return "accountNumber=" + accountNumber.getAccountNumber () +
                 ", accountBalance=" + accountBalance +
                 ", holderName=" + holderName;
     }

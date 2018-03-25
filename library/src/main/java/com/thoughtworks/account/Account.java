@@ -52,19 +52,5 @@ public class Account {
         Summary summary = new Summary(holderName,accountNumber,accountBalance);
         return summary.toString();
     }
-
-//    public abstract static class Transaction {
-//        private final String account;
-//        private final Date date;
-//        private final double amount;
-//        public Transaction(Date date , String to , double amount) {
-//            this.date = date;
-//            this.account = to;
-//            this.amount = amount;
-//        }
-//        public Date getDate() {
-//            return date;
-//        }
-//    }
 }
 

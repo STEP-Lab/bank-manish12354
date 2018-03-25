@@ -39,12 +39,13 @@ public class Account {
         return accountBalance;
     }
 
-    public double debit(double balance) throws InsufficientBalanceExceptoin {
-        int finalBalance = (int) (accountBalance - balance);
+    public double debit(double amount) throws InsufficientBalanceExceptoin {
+        int finalBalance = (int) (accountBalance - amount);
         if (finalBalance < minBalance){
             throw new InsufficientBalanceExceptoin();
         }
-        accountBalance-= balance;
+        this.transactions.debit ( amount,this.getHolderName ());
+        accountBalance-= amount;
         return accountBalance;
     }
     public String getSummary(){
@@ -52,18 +53,18 @@ public class Account {
         return summary.toString();
     }
 
-    public abstract static class Transaction { 
-        private final String account;
-        private final Date date;
-        private final double amount;
-        public Transaction(Date date , String to , double amount) { 
-            this.date = date;
-            this.account = to;
-            this.amount = amount; 
-        }
-        public Date getDate() {
-            return date;
-        }
-    }
+//    public abstract static class Transaction {
+//        private final String account;
+//        private final Date date;
+//        private final double amount;
+//        public Transaction(Date date , String to , double amount) {
+//            this.date = date;
+//            this.account = to;
+//            this.amount = amount;
+//        }
+//        public Date getDate() {
+//            return date;
+//        }
+//    }
 }
 

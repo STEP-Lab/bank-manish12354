@@ -68,4 +68,11 @@ public class AccountTest {
         account.credit ( 1000 );
         assertThat(account.transactions.list,hasItem(new CreditTransaction (new Date (), "manish" , 1000 ) ));
     }
+
+    @Test
+    public void shouldRecordDebitTransaction() throws InvalidAccountNumException, LowBalanceException, InsufficientBalanceExceptoin {
+        Account account = new Account ( "manish" , new AccountNumber ( "1234-5636" ) , 2000 );
+        account.debit (1000 );
+        assertThat(account.transactions.list,hasItem(new DebitTransaction (new Date (), "manish" , 1000 )));
+    }
 }

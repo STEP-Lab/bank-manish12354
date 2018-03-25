@@ -8,6 +8,7 @@ public class Account {
     private final String holderName;
     private final double minBalance;
     private double accountBalance;
+    public Transactions transactions;
 
     public Account(String holderName , AccountNumber accountNumber , double accountBalance) throws LowBalanceException, InvalidAccountNumException {
         this.minBalance = 1000;
@@ -15,6 +16,7 @@ public class Account {
         this.holderName = holderName;
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;
+        this.transactions = new Transactions ();
     }
 
     private void validateMinBalance(double balance,String message) throws LowBalanceException {
@@ -31,8 +33,9 @@ public class Account {
         return holderName;
     }
 
-    public double credit(double balance) {
-        accountBalance+=balance;
+    public double credit(double amount) {
+        this.transactions.credit(amount,this.getHolderName ());
+        accountBalance+=amount;
         return accountBalance;
     }
 

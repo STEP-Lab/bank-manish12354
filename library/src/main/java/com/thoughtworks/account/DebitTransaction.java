@@ -2,17 +2,12 @@ package com.thoughtworks.account;
 
 import java.util.Date;
 
-public class DebitTransaction {
-    private final Date date;
-    private final String account;
-    private final double amount;
-
-    public DebitTransaction(Date date , String account , double amount) {
-        this.date = date;
-        this.account = account;
-        this.amount = amount;
+public class DebitTransaction extends Transaction {
+    protected DebitTransaction(Date date, String to, double amount) {
+        super(date, to, amount);
     }
-    Date getDate(){
-        return date;
+
+    public DebitTransaction(double amount, String name) {
+        this(new Date(),name,amount);
     }
 }

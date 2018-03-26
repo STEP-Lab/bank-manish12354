@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
     compile project(':library')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 shadowJar {
@@ -12,8 +22,3 @@ shadowJar {
         )
     }
 }
-
-jar.enabled = false
-
-sourceCompatibility = 1.8
-

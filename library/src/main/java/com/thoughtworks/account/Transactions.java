@@ -17,7 +17,17 @@ public class Transactions {
         this.list.add(new CreditTransaction(amount,name));
     }
 
-    public ArrayList <Transaction> getList() {
+    public ArrayList <Transaction> getAllTransactions() {
         return list;
+    }
+
+    public Transactions filterByAmountGreaterThan(double amount) {
+        Transactions transactions = new Transactions ();
+        for (Transaction transaction: list) {
+            if (transaction.getAmount ()>=amount){
+            transactions.list.add(transaction);
+            }
+        }
+        return transactions;
     }
 }

@@ -69,6 +69,6 @@ public class Account {
     }
 
     public ArrayList<Transaction> getTransactions() {
-        return this.transactions.getList();
+        return this.transactions.getAllTransactions ();
     }
 }

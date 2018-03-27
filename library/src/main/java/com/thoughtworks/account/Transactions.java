@@ -32,6 +32,16 @@ public class Transactions {
         return transactions;
     }
 
+    public Transactions filterByAmountLessThan(double amount) {
+        Transactions transactions = new Transactions ();
+        for (Transaction transaction: list) {
+            if (transaction.getAmount ()<=amount){
+                transactions.list.add(transaction);
+            }
+        }
+        return transactions;
+    }
+
     public void print(PrintWriter writer) {
         for (Transaction transaction: list) {
             writer.println(transaction.toString());
@@ -57,4 +67,5 @@ public class Transactions {
         }
         return transactions;
     }
+
 }

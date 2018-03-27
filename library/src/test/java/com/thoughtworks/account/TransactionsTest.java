@@ -73,12 +73,22 @@ public class TransactionsTest {
 
 
     @Test
-    public void FilterTransactionByAmount() {
+    public void FilterTransactionByAmountGreaterThan() {
         Transactions transactions = new Transactions ();
         transactions.credit ( 1000,"mani" );
         transactions.credit ( 1500,"manu" );
         Transactions filteredTransactions = transactions.filterByAmountGreaterThan ( 1000 );
         assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ),new CreditTransaction ( 1500,"manu" )) );
+    }
+
+    @Test
+    public void FilterTransactionByAmountLessThan() {
+        Transactions transactions = new Transactions ();
+        transactions.credit ( 1000,"mani" );
+        transactions.credit ( 800,"manu" );
+        transactions.debit ( 1500,"manu" );
+        Transactions filteredTransactions = transactions.filterByAmountLessThan ( 1000 );
+        assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ),new CreditTransaction ( 800,"manu" )) );
     }
 
     @Test

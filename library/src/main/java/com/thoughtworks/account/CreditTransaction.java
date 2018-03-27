@@ -9,4 +9,12 @@ public class CreditTransaction extends Transaction {
     public CreditTransaction(double amount, String name) {
         this(new Date(),name,amount);
     }
+    public boolean isCreditTransaction() {
+        return true;
+    }
+
+    @Override
+    public boolean isDebitTransaction() {
+        return false;
+    }
 }

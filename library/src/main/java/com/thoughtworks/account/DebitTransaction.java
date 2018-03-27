@@ -7,6 +7,16 @@ public class DebitTransaction extends Transaction {
         super(date, to, amount);
     }
 
+    @Override
+    public boolean isCreditTransaction() {
+        return false;
+    }
+
+    @Override
+    public boolean isDebitTransaction() {
+        return true;
+    }
+
     public DebitTransaction(double amount, String name) {
         this(new Date(),name,amount);
     }

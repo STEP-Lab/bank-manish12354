@@ -71,4 +71,12 @@ public class Account {
     public ArrayList<Transaction> getTransactions() {
         return this.transactions.getAllTransactions ();
     }
+
+    public Transactions getCreditTransactions() {
+        return this.transactions.filterCreditTransaction ();
+    }
+
+    public Transactions getDebitTransactions() {
+        return this.transactions.filterDebitTransaction ();
+    }
 }

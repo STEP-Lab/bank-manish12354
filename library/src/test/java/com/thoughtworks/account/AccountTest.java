@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -86,5 +87,23 @@ public class AccountTest {
     public void invalidAmountTestForNegativeAmount() throws InvalidAmountException, InvalidAccountNumException, LowBalanceException {
         Account account = Account.CreateAcc ( "manoj" , AccountNumber.create ( "1234-8765" ) , 2000 );
         account.credit ( -100 );
+    }
+
+    @Test
+    public void shouldGiveAllCreditTransaction() throws InvalidAccountNumException, LowBalanceException, InvalidAmountException, InsufficientBalanceExceptoin {
+        Account manish = Account.CreateAcc ( "manish" , AccountNumber.create ( "1234-7654" ) , 2000 );
+        manish.credit ( 1000 );
+        manish.credit ( 1500 );
+        manish.debit ( 500 );
+        assertThat ( manish.getCreditTransactions().list,hasItems ( new CreditTransaction ( 1000,"manish" ),new CreditTransaction (1500,"manish"  ) ));
+    }
+
+    @Test
+    public void shouldGiveAllDebitTransaction() throws InsufficientBalanceExceptoin, InvalidAmountException, InvalidAccountNumException, LowBalanceException {
+        Account manish = Account.CreateAcc ( "manish" , AccountNumber.create ( "1234-7654" ) , 20000 );
+        manish.debit ( 1000 );
+        manish.debit ( 1500 );
+        manish.debit ( 500 );
+        assertThat ( manish.getDebitTransactions().list,hasItems ( new DebitTransaction ( 1000,"manish" ),new DebitTransaction (1500,"manish"  ),new DebitTransaction (500,"manish"  ) ));
     }
 }

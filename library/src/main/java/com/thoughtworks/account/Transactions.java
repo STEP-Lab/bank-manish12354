@@ -1,5 +1,6 @@
 package com.thoughtworks.account;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Transactions {
@@ -26,6 +27,32 @@ public class Transactions {
         for (Transaction transaction: list) {
             if (transaction.getAmount ()>=amount){
             transactions.list.add(transaction);
+            }
+        }
+        return transactions;
+    }
+
+    public void print(PrintWriter writer) {
+        for (Transaction transaction: list) {
+            writer.println(transaction.toString());
+        }
+    }
+
+    public Transactions filterCreditTransaction() {
+        Transactions transactions = new Transactions ();
+        for (Transaction transaction: list) {
+            if (transaction.isCreditTransaction()){
+                transactions.list.add(transaction);
+            }
+        }
+        return transactions;
+    }
+
+    public Transactions filterDebitTransaction() {
+        Transactions transactions = new Transactions ();
+        for (Transaction transaction: list) {
+            if (transaction.isDebitTransaction()){
+                transactions.list.add(transaction);
             }
         }
         return transactions;

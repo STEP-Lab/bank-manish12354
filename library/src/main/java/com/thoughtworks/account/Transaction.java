@@ -3,7 +3,7 @@ package com.thoughtworks.account;
 import java.util.Date;
 import java.util.Objects;
 
-public class Transaction {
+public abstract class Transaction {
     private final double amount;
     private final Date date;
     private final String to;
@@ -34,5 +34,9 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
+
+    public abstract boolean isCreditTransaction();
+
+    public abstract boolean isDebitTransaction();
 }
 

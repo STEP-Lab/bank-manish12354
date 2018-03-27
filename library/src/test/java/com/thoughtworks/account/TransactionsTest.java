@@ -3,6 +3,9 @@ package com.thoughtworks.account;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,11 +53,50 @@ public class TransactionsTest {
     }
 
     @Test
+    public void printTransactions() throws FileNotFoundException, UnsupportedEncodingException {
+        Transactions transactions = new Transactions ();
+        CreditTransaction manish = new CreditTransaction(1000, "manish");
+        DebitTransaction manu = new DebitTransaction(1000, "manu");
+        ArrayList<String> result = new ArrayList<>();
+        transactions.credit(1000,"manish");
+        transactions.debit(1000,"manu");
+        PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8"){
+            @Override
+            public void println(String x) {
+                result.add(x);
+            }
+        };
+        transactions.print(writer);
+        writer.close();
+        assertThat(result,hasItems(manish.toString(),manu.toString()));
+    }
+
+
+    @Test
     public void FilterTransactionByAmount() {
         Transactions transactions = new Transactions ();
         transactions.credit ( 1000,"mani" );
         transactions.credit ( 1500,"manu" );
         Transactions filteredTransactions = transactions.filterByAmountGreaterThan ( 1000 );
         assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ),new CreditTransaction ( 1500,"manu" )) );
+    }
+
+    @Test
+    public void shouldFilterCreditTransactions() {
+        Transactions transactions = new Transactions ();
+        transactions.credit ( 1000,"mani" );
+        transactions.credit ( 1500,"manu" );
+        transactions.debit(1000,"mani");
+        Transactions creditTransactions = transactions.filterCreditTransaction ( );
+        assertThat ( creditTransactions.list,hasItems ( new CreditTransaction ( 1500, "manu" ),new CreditTransaction ( 1000,"mani" ) ) );
+    }
+    @Test
+    public void shouldFilterDebitTransactions() {
+        Transactions transactions = new Transactions ();
+        transactions.debit ( 1000,"mani" );
+        transactions.debit ( 1500,"manu" );
+        transactions.credit(1000,"mani");
+        Transactions debitTransactions = transactions.filterDebitTransaction ( );
+        assertThat ( debitTransactions.list,hasItems ( new DebitTransaction ( 1000, "mani" ),new DebitTransaction ( 1500,"manu" ) ) );
     }
 }

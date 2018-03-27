@@ -5,13 +5,15 @@ import java.util.Objects;
 
 public abstract class Transaction {
     private final double amount;
+    private Double availableBalance;
     private final Date date;
     private final String to;
 
-    public Transaction(Date date, String to, double amount) {
+    public Transaction(Date date , String to , double amount , Double availableBalance) {
         this.date = date;
         this.to = to;
         this.amount = amount;
+        this.availableBalance = availableBalance;
     }
     Date getDate(){
         return date;
@@ -38,5 +40,9 @@ public abstract class Transaction {
     public abstract boolean isCreditTransaction();
 
     public abstract boolean isDebitTransaction();
+
+    public Double getAvailableBalance() {
+        return availableBalance;
+    }
 }
 

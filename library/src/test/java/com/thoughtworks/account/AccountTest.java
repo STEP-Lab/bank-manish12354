@@ -67,14 +67,14 @@ public class AccountTest {
     public void shouldRecordCreditTransaction() throws InvalidAccountNumException, LowBalanceException, InvalidAmountException {
         Account account = Account.CreateAcc ( "manish" , AccountNumber.create ( "1234-5636" ) , 2000 );
         account.credit ( 1000 );
-        assertThat(account.getTransactions(),hasItem(new CreditTransaction (new Date (), "manish" , 1000 ) ));
+        assertThat(account.getTransactions(),hasItem(new CreditTransaction (1000, "manish" , 1000 ) ));
     }
 
     @Test
     public void shouldRecordDebitTransaction() throws InvalidAccountNumException, LowBalanceException, InsufficientBalanceExceptoin, InvalidAmountException {
         Account account = Account.CreateAcc ( "manish" , AccountNumber.create ( "1234-5636" ) , 2000 );
         account.debit (1000 );
-        assertThat(account.getTransactions(),hasItem(new DebitTransaction (new Date (), "manish" , 1000 )));
+        assertThat(account.getTransactions(),hasItem(new DebitTransaction (1000, "manish" , 1000 )));
     }
 
     @Test(expected = InvalidAmountException.class)
@@ -95,7 +95,7 @@ public class AccountTest {
         manish.credit ( 1000 );
         manish.credit ( 1500 );
         manish.debit ( 500 );
-        assertThat ( manish.getCreditTransactions().list,hasItems ( new CreditTransaction ( 1000,"manish" ),new CreditTransaction (1500,"manish"  ) ));
+        assertThat ( manish.getCreditTransactions().list,hasItems ( new CreditTransaction ( 1000,"manish" ,3000),new CreditTransaction (1500,"manish",4500  ) ));
     }
 
     @Test
@@ -104,6 +104,6 @@ public class AccountTest {
         manish.debit ( 1000 );
         manish.debit ( 1500 );
         manish.debit ( 500 );
-        assertThat ( manish.getDebitTransactions().list,hasItems ( new DebitTransaction ( 1000,"manish" ),new DebitTransaction (1500,"manish"  ),new DebitTransaction (500,"manish"  ) ));
+        assertThat ( manish.getDebitTransactions().list,hasItems ( new DebitTransaction ( 1000,"manish",19000 ),new DebitTransaction (1500,"manish" ,17500 ),new DebitTransaction (500,"manish" ,17000 ) ));
     }
 }

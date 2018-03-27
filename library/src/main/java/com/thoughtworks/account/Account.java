@@ -9,7 +9,7 @@ public class Account {
     private double accountBalance;
     protected Transactions transactions;
 
-    public Account(String holderName , AccountNumber accountNumber , double accountBalance) throws LowBalanceException, InvalidAccountNumException {
+    public Account(String holderName , AccountNumber accountNumber , double accountBalance) {
         this.holderName = holderName;
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;
@@ -37,8 +37,8 @@ public class Account {
 
     public double credit(double amount) throws InvalidAmountException {
         validateAmount(amount);
-        this.transactions.credit ( amount , this.getHolderName () );
         accountBalance += amount;
+        this.transactions.credit ( amount , this.getHolderName (),accountBalance );
         return accountBalance;
     }
 
@@ -52,8 +52,8 @@ public class Account {
         validateAmount(amount);
         double finalBalance = (double) (accountBalance - amount);
         validateFinalBalance(finalBalance);
-        this.transactions.debit ( amount , this.getHolderName () );
         accountBalance -= amount;
+        this.transactions.debit ( amount , this.getHolderName (),accountBalance );
         return accountBalance;
     }
 

@@ -1,5 +1,6 @@
 package com.thoughtworks.account;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -18,48 +19,48 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class TransactionsTest {
+    Transactions transactions;
+    @Before
+    public void setUp() throws Exception {
+        transactions = new Transactions ();
+    }
+
     @Test
     public void shouldRecordDebitTransactions(){
-        Transactions transactions = new Transactions();
-        transactions.debit(1000,"manish");
-        transactions.credit ( 1000,"manu" );
-//        System.out.println (transactions.list);
-        assertThat(transactions.list,hasItem(new DebitTransaction (new Date (), "manish" , 1000 ) ));
+        transactions.debit(1000,"manish",1000);
+        transactions.credit ( 1000,"manu",1000 );
+        assertThat(transactions.list,hasItem(new DebitTransaction (new Date (), "manish" , 1000 ,1000) ));
     }
 
     @Test
     public void shouldRecordCreditTransaction() {
-        Transactions transactions = new Transactions ();
-        transactions.credit(1000,"manu");
-        assertThat(transactions.list,hasItem(new CreditTransaction (new Date (), "manu" , 1000 ) ));
+        transactions.credit(1000,"manu",1000);
+        assertThat(transactions.list,hasItem(new CreditTransaction (new Date (), "manu" , 1000 ,1000) ));
     }
 
     @Test
     public void shouldGiveEmptyListIfNoTxnDone() {
-        Transactions transactions = new Transactions ();
         ArrayList <Transaction> allTransactions = transactions.getAllTransactions ();
         assertTrue(allTransactions.isEmpty());
     }
 
     @Test
     public void shouldGiveTxnListIfTxnIsDone() {
-        Transactions transactions = new Transactions ();
-        transactions.credit ( 1000,"mani" );
+        transactions.credit ( 1000,"mani" ,1000);
         ArrayList <Transaction> allTransactions = transactions.getAllTransactions ();
         ArrayList <Transaction> transactions1 = new ArrayList <> ();
-        transactions1.add ( new CreditTransaction ( 1000,"mani" ) );
+        transactions1.add ( new CreditTransaction ( 1000,"mani",1000 ) );
         assertArrayEquals (transactions1.toArray (),allTransactions.toArray ());
         assertEquals( new HashSet <> ( transactions1 ), new HashSet <> ( allTransactions ));
     }
 
     @Test
     public void printTransactions() throws FileNotFoundException, UnsupportedEncodingException {
-        Transactions transactions = new Transactions ();
-        CreditTransaction manish = new CreditTransaction(1000, "manish");
-        DebitTransaction manu = new DebitTransaction(1000, "manu");
+        CreditTransaction manish = new CreditTransaction(1000, "manish",1000);
+        DebitTransaction manu = new DebitTransaction(1000, "manu",1000);
         ArrayList<String> result = new ArrayList<>();
-        transactions.credit(1000,"manish");
-        transactions.debit(1000,"manu");
+        transactions.credit(1000,"manish",1000);
+        transactions.debit(1000,"manu",1000);
         PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8"){
             @Override
             public void println(String x) {
@@ -74,39 +75,40 @@ public class TransactionsTest {
 
     @Test
     public void FilterTransactionByAmountGreaterThan() {
-        Transactions transactions = new Transactions ();
-        transactions.credit ( 1000,"mani" );
-        transactions.credit ( 1500,"manu" );
+        transactions.credit ( 1000,"mani" ,1000);
+        transactions.credit ( 1500,"manu" ,1000);
         Transactions filteredTransactions = transactions.filterByAmountGreaterThan ( 1000 );
-        assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ),new CreditTransaction ( 1500,"manu" )) );
+        assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ,1000),new CreditTransaction ( 1500,"manu" ,1000)) );
     }
 
     @Test
     public void FilterTransactionByAmountLessThan() {
-        Transactions transactions = new Transactions ();
-        transactions.credit ( 1000,"mani" );
-        transactions.credit ( 800,"manu" );
-        transactions.debit ( 1500,"manu" );
+        transactions.credit ( 1000,"mani",100 );
+        transactions.credit ( 800,"manu",100 );
+        transactions.debit ( 1500,"manu" ,100);
         Transactions filteredTransactions = transactions.filterByAmountLessThan ( 1000 );
-        assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ),new CreditTransaction ( 800,"manu" )) );
+        assertThat ( filteredTransactions.list, hasItems(new CreditTransaction ( 1000,"mani" ,100),new CreditTransaction ( 800,"manu" ,100)) );
     }
 
     @Test
     public void shouldFilterCreditTransactions() {
-        Transactions transactions = new Transactions ();
-        transactions.credit ( 1000,"mani" );
-        transactions.credit ( 1500,"manu" );
-        transactions.debit(1000,"mani");
+        transactions.credit ( 1000,"mani",10000 );
+        transactions.credit ( 1500,"manu" ,10000);
+        transactions.debit(1000,"mani",10000);
         Transactions creditTransactions = transactions.filterCreditTransaction ( );
-        assertThat ( creditTransactions.list,hasItems ( new CreditTransaction ( 1500, "manu" ),new CreditTransaction ( 1000,"mani" ) ) );
+        assertThat ( creditTransactions.list,hasItems ( new CreditTransaction ( 1500, "manu" ,10000),new CreditTransaction ( 1000,"mani" ,10000) ) );
     }
     @Test
     public void shouldFilterDebitTransactions() {
-        Transactions transactions = new Transactions ();
-        transactions.debit ( 1000,"mani" );
-        transactions.debit ( 1500,"manu" );
-        transactions.credit(1000,"mani");
+        transactions.debit ( 1000,"mani" ,1000);
+        transactions.debit ( 1500,"manu",1000 );
+        transactions.credit(1000,"mani",1000);
         Transactions debitTransactions = transactions.filterDebitTransaction ( );
-        assertThat ( debitTransactions.list,hasItems ( new DebitTransaction ( 1000, "mani" ),new DebitTransaction ( 1500,"manu" ) ) );
+        assertThat ( debitTransactions.list,hasItems ( new DebitTransaction ( 1000, "mani" ,1000),new DebitTransaction ( 1500,"manu",1000 ) ) );
     }
+
+//    @Test
+//    public void shouldFilterAllTransactionByDate() {
+//
+//    }
 }

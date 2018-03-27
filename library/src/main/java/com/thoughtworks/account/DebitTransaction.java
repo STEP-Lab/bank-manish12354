@@ -3,8 +3,8 @@ package com.thoughtworks.account;
 import java.util.Date;
 
 public class DebitTransaction extends Transaction {
-    protected DebitTransaction(Date date, String to, double amount) {
-        super(date, to, amount);
+    protected DebitTransaction(Date date , String to , double amount,double availableBalance) {
+        super(date, to, amount, availableBalance);
     }
 
     @Override
@@ -17,7 +17,7 @@ public class DebitTransaction extends Transaction {
         return true;
     }
 
-    public DebitTransaction(double amount, String name) {
-        this(new Date(),name,amount);
+    public DebitTransaction(double amount, String name,double availableBalance) {
+        this(new Date(),name,amount,availableBalance);
     }
 }

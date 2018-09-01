@@ -2,6 +2,7 @@ package com.thoughtworks.account;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Transactions {
     protected ArrayList<Transaction> list;
@@ -61,6 +62,7 @@ public class Transactions {
     public Transactions filterDebitTransaction() {
         Transactions transactions = new Transactions ();
         for (Transaction transaction: list) {
+            /// move logic to transaction
             if (transaction.isDebitTransaction()){
                 transactions.list.add(transaction);
             }
@@ -68,4 +70,17 @@ public class Transactions {
         return transactions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transactions)) return false;
+        Transactions that = (Transactions) o;
+        return Objects.equals ( list , that.list );
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash ( list );
+    }
 }
